@@ -1,17 +1,22 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { getAllTickets } from "../../services/ticketService";
 import "./Tickets.css"
 import { Ticket } from "./Ticket";
 import { TicketFilter } from "./TicketFilter";
 
-export const TicketList = () => {
+export const TicketList = ({currentUser}) => {
     const [allTickets, setAllTickets] = useState([]);
     const [showEmergencyOnly, setShowEmergencyOnly] = useState(false);
     const [filteredTickets, setFilteredTickets] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
-    useEffect(() => {
+    const getAndSetTickets = () => {
         getAllTickets().then(res => setAllTickets(res));
+    }
+
+    useEffect(() => {
+        getAndSetTickets();
     }, []);
 
     useEffect(() => {
@@ -37,7 +42,7 @@ export const TicketList = () => {
             <article className="tickets">
                 {filteredTickets.map(ticketObj => {
                     return (
-                        <Ticket key={ticketObj.id} ticket={ticketObj} />
+                        <Ticket key={ticketObj.id} ticket={ticketObj} currentUser={currentUser} getAndSetTickets={getAndSetTickets}/>
                     )
                 })}
             </article>
