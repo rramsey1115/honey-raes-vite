@@ -1,24 +1,12 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-const navigate = useNavigate;
 
-export const Navbar = () => {
+export const CustomerNav = () => {
+    const navigate = useNavigate();
     return (
         <ul className="navbar">
             <li className="navbar-item">
-                <NavLink to="/">Home</NavLink>
-            </li>
-            <li className="navbar-item">
-                <NavLink to="/tickets">Tickets</NavLink>
-            </li>
-            <li className="navbar-item">
-                <NavLink to="/employees">Employees</NavLink>
-            </li>
-            <li className="navbar-item">
-                <NavLink to="/customers">Customers</NavLink>
-            </li>
-            <li className="navbar-item">
-                <NavLink to="/profile">Profile</NavLink>
+                <NavLink className="navbar-link" to="/tickets">Tickets</NavLink>
             </li>
             {localStorage.getItem("honey_user") ? (
                 <li className="navbar-item navbar-logout">

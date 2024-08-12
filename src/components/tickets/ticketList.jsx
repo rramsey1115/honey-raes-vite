@@ -12,7 +12,14 @@ export const TicketList = ({currentUser}) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const getAndSetTickets = () => {
-        getAllTickets().then(res => setAllTickets(res));
+        getAllTickets().then(ticketsArray => {
+            if (currentUser.isStaff === "true") {
+                setAllTickets(ticketsArray);
+            } else {
+                const customerTickets = ticketsArray.filter((ticket) => ticket.userId === currentUser.id)
+                setAllTickets(customerTickets);
+            }
+        });
     }
 
     useEffect(() => {
