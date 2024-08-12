@@ -17,19 +17,22 @@ export const EmployeeForm = ({ currentUser }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         const editedEmployee = {
             id: employee.id,
             specialty: employee.specialty,
             rate: employee.rate,
             employeeId: employee.employeeId
         }
-
         updateEmployee(editedEmployee).then(() => {
             navigate(`/employees/${currentUser.id}`)
         })
     }
 
+    const handleInputChange = (event) => {
+        const stateCopy = {...employee};
+        stateCopy[event.target.name] = event.target.value;
+        setEmployee(stateCopy);
+    }
 
     return (
         <form className="profile">
@@ -39,11 +42,8 @@ export const EmployeeForm = ({ currentUser }) => {
                     <label htmlFor="specialty-input">Specialty</label>
                     <input
                         value={employee?.specialty ? employee.specialty : ""}
-                        onChange={(e) => {
-                            const copy = { ...employee}
-                            copy.specialty = e.target.value
-                            setEmployee(copy)
-                        }}
+                        name="specialty"
+                        onChange={{handleInputChange}}
                         id="specialty-input"
                         type="text"
                         required
@@ -56,11 +56,8 @@ export const EmployeeForm = ({ currentUser }) => {
                     <label htmlFor="hourly-input">Hourly Rate</label>
                     <input
                         value={employee?.rate ? employee.rate : 0}
-                        onChange={(e) => {
-                            const copy = { ...employee }
-                            copy.rate = e.target.value
-                            setEmployee(copy)
-                        }}
+                        name="rate"
+                        onChange={{handleInputChange}}
                         type="number"
                         required
                         className="form-control"
